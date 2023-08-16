@@ -27,39 +27,57 @@
         Salary = U$ 374,000.00
 */
 #include <stdio.h>
-void printfcomma(int n) {
-    if (n < 0) {
-        printf("-");
-        printfcomma(-n);
-        return;
-    }
-    if (n < 1000) {
-        printf("%d", n);
-        return;
-    }
-    printfcomma(n / 1000);
-    printf(",%03d", n % 1000);
-}
 
-int main() {
-    char Employees_ID[11];
-    int working_hrs = 0;
-    int amount_hr = 0;
+int main()
+{
+    char Eidstr[11];
+    float WorkHr, S;
+    int i;
 
-    printf("Please Enter ID: ");
-    scanf("%s", Employees_ID);
+    printf("Input the Employees ID(Max. 10 chars): \n");
+    scanf("%10s", Eidstr);
 
-    printf("Please Enter hour: ");
-    scanf("%d", &working_hrs);
+    printf("Input the working hrs: \n");
+    scanf("%f", &WorkHr);
 
-    printf("Please Enter Salary amount/hr: ");
-    scanf("%d", &amount_hr);
+    printf("Salary amount/hr: \n");
+    scanf("%f", &S);
+
+    float salary = WorkHr * S;
 
     printf("Expected Output:\n");
-    printf("Employees ID = %s\n", Employees_ID);
+    printf("Employees ID = %s\n", Eidstr);
+
+    int temp = 1, comma_count = 0;
+    int salary_int = (int)salary; // Extracting the integer part of the salary
+
+    // Count the number of digits in the integer part of the salary
+    int temp_salary = salary_int;
+    while (temp_salary > 0)
+    {
+        temp_salary /= 10;
+        comma_count++;
+    }
+
+    for (i = 1; i < comma_count; i++)
+    {
+        temp *= 10;
+    }
     printf("Salary = U$ ");
-    printfcomma(working_hrs * amount_hr);
-    printf("\n");
+    i = 0; // Resetting the loop counter
+    while (temp > 0)
+    {
+        printf("%d", salary_int / temp);
+        salary_int %= temp;
+        temp /= 10;
+        i++;
+
+        if (i < comma_count && i % 3 == 0)
+        {
+            printf(",");
+        }
+    }
+    printf(".00");
 
     return 0;
 }
